@@ -1,0 +1,18 @@
+// user exmaple
+
+{
+  "_id": "$oid",
+  "username": "john",
+  "password": "noimjohn",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+// account example
+
+{
+  "_id": "$oid",
+  "userId": "$oid",
+  "balance": "9999"
+
+}

@@ -16,13 +16,13 @@ const { authMiddleware } = require('../middleware');
 // }
 
 userRouter.post('/signup', async function (req, res) {
- 
+
   try {
     const uploadedPayload = req.body;
     const parsedPayload = signup.safeParse(uploadedPayload);
 
     if (!parsedPayload.success) {
-      res.status(411).json({
+      res.status(403).json({
         msg: "Incorrect inputs"
       })
       return;
@@ -31,7 +31,7 @@ userRouter.post('/signup', async function (req, res) {
     const matchResult = await User.findOne({ username: uploadedPayload.username })
 
     if (matchResult) {
-      res.status(411).json({
+      res.status(403).json({
         msg: "username already taken"
       })
       return;
@@ -63,7 +63,6 @@ userRouter.post('/signup', async function (req, res) {
       msg: "Error while creating new user"
     })
 
-
   }
 })
 
@@ -76,7 +75,7 @@ userRouter.post('/signin', async function(req, res) {
     //console.log(req.headers);
 
     if(!parsedPayload.success) {
-      res.status(411).json({
+      res.status(403).json({
         msg: "Incorrect Inputs"
       })
       return;
@@ -88,7 +87,7 @@ userRouter.post('/signin', async function(req, res) {
     })
 
     if(!registeredUser) {
-      res.status(411).json({
+      res.status(403).json({
         msg: "Wrong username and/or password"
       })
       return;
@@ -110,7 +109,7 @@ userRouter.put('/', authMiddleware, async function(req, res) {
 
     const parsedPayload = updateUser.safeParse(req.body);
     if (!parsedPayload.success) {
-      res.status(411).json({
+      res.status(403).json({
         msg: "Incorrect Inputs"
       })
       return;

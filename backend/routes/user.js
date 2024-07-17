@@ -95,6 +95,7 @@ userRouter.post('/signin', async function(req, res) {
 
     const userId = registeredUser._id;
     res.status(200).json({
+      msg: "Successfully Signed in",
       token: jwt.sign({ userId }, connectionString.SECRET_TOKEN )
     })
 

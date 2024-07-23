@@ -136,20 +136,21 @@ userRouter.get('/bulk', authMiddleware, async function(req, res) {
 // find users under given filter
 //  try {
 
-    const filterBody = req.body;
-  console.log(filterBody)
-    const searchResult = await User.find({
-      $or: [
-        { firstName: { "$regex": filterBody.firstName } },
-        { lastName: { "$regex": filterBody.lastName } }
-      ]
-    })
+  const fnQuery = req.query.fn;
+  const lnQuery = req.query.ln;
+  console.log(fnQuery, lnQuery);
+  const searchResult = await User.find({
+    $or: [
+      { firstName: { "$regex": fnQuery }},
+      { lastName: { "$regex": lnQuery }}
+    ]
+  })
 
-    if (!searchResult) {
-      return;
-    }
+  if (!searchResult) {
+    return;
+  }
 
-    res.status(200).json(searchResult);
+  res.status(200).json(searchResult);
 
 //  } catch(err) {
 //    console.log("Error in bulk route");

@@ -131,30 +131,29 @@ userRouter.put('/', authMiddleware, async function(req, res) {
   }
 })
 
-userRouter.get('/bulk', authMiddleware, async function(req, res) {
+userRouter.post('/bulk', authMiddleware, async function(req, res) {
 
-// find users under given filter
-//  try {
+  // find users under given filter
+  try {
 
-  const fnQuery = req.query.fn;
-  const lnQuery = req.query.ln;
-  console.log(fnQuery, lnQuery);
-  const searchResult = await User.find({
-    $or: [
-      { firstName: { "$regex": fnQuery }},
-      { lastName: { "$regex": lnQuery }}
-    ]
-  })
+    const fnQuery = req.body.fn;
+    const lnQuery = req.body.ln;
+    const searchResult = await User.find({
+      $or: [
+        { firstName: { "$regex": fnQuery }},
+        { lastName: { "$regex": lnQuery }}
+      ]
+    })
 
-  if (!searchResult) {
-    return;
+    if (!searchResult) {
+      return;
+    }
+
+    res.status(200).json(searchResult);
+
+  } catch(err) {
+    console.log("Error in bulk route");
   }
-
-  res.status(200).json(searchResult);
-
-//  } catch(err) {
-//    console.log("Error in bulk route");
-//  }
 }) 
 
 module.exports = {
